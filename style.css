@@ -1,0 +1,310 @@
+/* Premium Colors */
+:root {
+    --bg-dark: #1A1A2E; /* Dark background */
+    --card-dark: #2C2C42; /* Slightly lighter dark for cards */
+    --text-light: #E0E0E0; /* Light text */
+    --accent-green: #00BF63; /* Vibrant green for active status */
+    --accent-red: #E74C3C; /* Red for alert/recording */
+    --border-glow: #00BF6355; /* Subtle glow effect */
+    --text-dim: #A0A0A0; /* Dimmer text for secondary info */
+}
+
+/* Base Styles */
+body {
+    font-family: 'Segoe UI', 'Roboto', sans-serif; /* Modern, clean font */
+    margin: 0;
+    padding: 20px;
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align to top */
+    min-height: 100vh;
+    box-sizing: border-box;
+    overflow-y: auto; /* Allow scrolling for longer content */
+}
+
+.dashboard-container {
+    width: 100%;
+    max-width: 1200px;
+    background-color: var(--bg-dark);
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Deep shadow for depth */
+    padding: 30px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+/* Header */
+.dashboard-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.dashboard-header .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.dashboard-header .logo i {
+    font-size: 3em;
+    color: var(--accent-green);
+    text-shadow: 0 0 15px var(--accent-green); /* Subtle glow */
+}
+
+.dashboard-header h1 {
+    font-size: 2.8em;
+    margin: 0;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.dashboard-header p {
+    font-size: 1.1em;
+    color: var(--text-dim);
+    margin-top: 5px;
+}
+
+/* Grid Layout for Main Content */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr; /* Status | Video | Log */
+    gap: 25px;
+    align-items: start; /* Align cards to the top of their grid areas */
+}
+
+/* Cards */
+.card {
+    background-color: var(--card-dark);
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease; /* Smooth transitions */
+    min-height: 200px; /* Ensure cards have some height */
+    display: flex;
+    flex-direction: column;
+}
+
+.card h2 {
+    font-size: 1.6em;
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: var(--accent-green); /* Heading color */
+    border-bottom: 2px solid rgba(var(--accent-green), 0.3);
+    padding-bottom: 10px;
+}
+
+/* Status Card Specifics */
+.status-card {
+    text-align: center;
+}
+
+.status-indicator {
+    font-size: 2.5em;
+    margin: 25px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: var(--text-dim); /* Default color */
+}
+
+.status-indicator i {
+    font-size: 3em;
+    animation: pulse 1.5s infinite alternate; /* Subtle breathing effect */
+}
+
+.status-indicator.active {
+    color: var(--accent-green);
+    text-shadow: 0 0 15px var(--accent-green);
+}
+
+.status-indicator.active i {
+    animation: none; /* Stop pulse when active */
+}
+
+.status-indicator.alert {
+    color: var(--accent-red);
+    text-shadow: 0 0 15px var(--accent-red);
+}
+
+.status-message {
+    font-size: 1.2em;
+    font-weight: 500;
+    color: var(--text-light);
+}
+
+/* Video Feed Card Specifics */
+.video-feed-card {
+    grid-column: 2; /* Spans the middle column */
+    min-height: 400px;
+}
+
+.video-container {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%; /* 16:9 Aspect Ratio */
+    background-color: #000;
+    border-radius: 8px;
+    overflow: hidden;
+    flex-grow: 1; /* Allows video container to take available space */
+}
+
+#liveVideo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures video covers the area */
+    display: none; /* Hidden by default, shown when recording */
+}
+
+.recording-indicator {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: var(--accent-red);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 0.9em;
+    display: none; /* Hidden by default */
+    animation: blink 1s infinite;
+    z-index: 10;
+}
+
+.no-feed-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: var(--text-dim);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    text-align: center;
+    border-radius: 8px;
+}
+
+.no-feed-overlay i {
+    font-size: 3em;
+    margin-bottom: 10px;
+}
+
+/* Event Log Card Specifics */
+.event-log-card {
+    display: flex;
+    flex-direction: column;
+}
+
+#eventLogList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow-y: auto; /* Scroll for long logs */
+    max-height: 300px; /* Limit height */
+    flex-grow: 1;
+}
+
+#eventLogList li {
+    padding: 8px 0;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+    font-size: 0.95em;
+    color: var(--text-light);
+}
+
+#eventLogList li:last-child {
+    border-bottom: none;
+}
+
+.timestamp {
+    color: var(--text-dim);
+    margin-right: 10px;
+    font-size: 0.85em;
+}
+
+/* Footer */
+.dashboard-footer {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-dim);
+    font-size: 0.9em;
+}
+
+.dashboard-footer p:last-child {
+    margin-top: 5px;
+    font-style: italic;
+}
+
+/* Animations */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.7;
+    }
+    100% {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+}
+
+@keyframes blink {
+    0%, 49% {
+        opacity: 1;
+    }
+    50%, 100% {
+        opacity: 0;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr; /* Stack all cards on smaller screens */
+    }
+    .video-feed-card {
+        grid-column: 1; /* Reset video card to single column */
+    }
+    .dashboard-container {
+        padding: 20px;
+    }
+    .card {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 600px) {
+    .dashboard-header h1 {
+        font-size: 2em;
+    }
+    .dashboard-header .logo i {
+        font-size: 2.5em;
+    }
+    .status-indicator {
+        font-size: 2em;
+    }
+    .status-indicator i {
+        font-size: 2.5em;
+    }
+    .card h2 {
+        font-size: 1.4em;
+    }
+    .no-feed-overlay {
+        font-size: 1.2em;
+    }
+}
